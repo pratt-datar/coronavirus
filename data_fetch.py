@@ -14,6 +14,7 @@ try:
 
 		x= tweets.find_one()
 
-		for document in x: print(document)
+		for document in x: 
+			pprint(document)
 except:
 	print("Try again")
