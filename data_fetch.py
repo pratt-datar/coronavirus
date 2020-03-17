@@ -16,5 +16,5 @@ print("X DONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
 #y = list(tweets.find_one())
 #print(y)
 
-for y in tweets.find({"$and":[ {"entities.hashtags.text":{"$exists": True}}, {"entities.hashtags.text":{"$ne": ""}}]}).limit(5):
+for y in tweets.find({"$and":[ {"entities.hashtags.text":{"$exists": True}}, {"entities.hashtags.text":{"$ne": ""}}]}).limit(1):
 	print(y)
