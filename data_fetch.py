@@ -18,6 +18,12 @@ try:
 except:
 	print("stackoverflow method failed")
 
+try:
+	cluster = MongoClient(host=['localhost:27017'],username='pdatar',password='joshist800',authSource='admin',authMechanism='SCRAM-SHA-256')
+	print("M3 Success")
+except:
+	print("M3 failed")
+
 #cluster = MongoClient("mongodb://127.0.0.1:27017/admin")
 try:
 
