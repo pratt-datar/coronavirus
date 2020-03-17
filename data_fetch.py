@@ -10,6 +10,6 @@ except:
 
 db = cluster["coronavirus_5e332abb06036301c3a1d517"]
 teets = db["tweets"]
-x tweets.find_one()
+x = tweets.find_one()
 for document in x: 
 	pprint(document)
