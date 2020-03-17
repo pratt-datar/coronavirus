@@ -1,9 +1,9 @@
 # Imports
 from pymongo import MongoClient
-import urllib.parse
+#import urllib.parse
 
-username = urllib.parse.quote_plus('pdatar')
-password = urllib.parse.quote_plus('joshist800')
+#username = urllib.parse.quote_plus('pdatar')
+#password = urllib.parse.quote_plus('joshist800')
 
 try:
 
