@@ -16,7 +16,7 @@ tweets = db["tweets"]
 bios = db['bios']
 
 # QUERY
-tweet_obj = tweets.find({"$or":[{"retweeted_status.extended_tweet.entities.hashtags.text":{"$exists":True}},{"entities.hashtags.text":{"$exists":True}}]},{"user.screen_name":1,"entities.hashtags.text":1,"retweeted_status.extended_tweet.entities.hashtags.text":1,"timestamp_ms":1,"_id":0}).limit(1)
+tweet_obj = tweets.find({"$or":[{"retweeted_status.extended_tweet.entities.hashtags.text":{"$exists":True}},{"entities.hashtags.text":{"$exists":True}}]},{"user.screen_name":1,"entities.hashtags.text":1,"retweeted_status.extended_tweet.entities.hashtags.text":1,"timestamp_ms":1,"_id":0}).limit(3)
 #print("Tweet Query DONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
 
 #with open('tweets_new.txt', 'w') as outfile:
@@ -38,17 +38,20 @@ bios_obj = bios.find({"$or":[{"awards.award":{"$exists":True}},{"death":{"$exist
 #		flattened_record = {'_id': user_id,'name.last': last_name}
 #		write.writerow(flattened_record)
 
-text_rt = []
-text_hash = []
 with open('tweets.csv', 'w') as outfile:
 	fields = ['screen_name','timestamp','rt_hashtags']
 	write = csv.DictWriter(outfile, fieldnames=fields)
 	write.writeheader()
 	for records in tweet_obj:  # Here we are using 'tweet_obj' as an iterator
+		text_rt = []
+		text_hash = []
 		username = records['user']['screen_name']
-		timestamp = records['timestamp_ms']
-		for x in records['retweeted_status']['extended_tweet']['entities']['hashtags']:
-			text_rt.append(x['text'])
+		timestamp = records['timestamp_ms'] 
+		try:
+			for x in records['retweeted_status']['extended_tweet']['entities']['hashtags']:
+				text_rt.append(x['text'])
+		except:
+			text_rt = None
 		flattened_record = {'screen_name':username,'timestamp': timestamp, 'rt_hashtags': text_rt}
 		write.writerow(flattened_record)
 
