@@ -18,7 +18,7 @@ tweets = db["tweets"]
 # QUERY
 #tweet_obj = tweets.find({"$or":[{"retweeted_status.extended_tweet.entities.hashtags.text":{"$exists":True}},{"entities.hashtags.text":{"$exists":True}}]},{"user.screen_name":1,"entities":1,"retweeted_status":1,"timestamp_ms":1,"_id":0})
 
-tweet_obj = tweets.find({"$or":[{"retweeted_status.extended_tweet.entities.hashtags.text":{"$exists":True}},{"entities.hashtags.text":{"$exists":True}},{"entities.user_mentions.id":{"$exists":True}},{"retweeted_status.extended_tweet.entities.user_mentions.id":{"$exists":True}}]},{"_id":1,"id":1,"timestamp_ms":1,"entities.user_mentions.id":1,"retweeted_status.id":1,"retweeted_status.extended_tweet.entities.user_mentions.id":1,"retweeted_status.user.id":1,"user.id":1,"entities.hashtags.text":1,"retweeted_status.extended_tweet.entities.hashtags.text":1})
+tweet_obj = tweets.find({"$or":[{"retweeted_status.extended_tweet.entities.hashtags.text":{"$exists":True}},{"entities.hashtags.text":{"$exists":True}},{"entities.user_mentions.id":{"$exists":True}},{"retweeted_status.extended_tweet.entities.user_mentions.id":{"$exists":True}}]},{"_id":1,"id":1,"timestamp_ms":1,"entities.user_mentions.id":1,"retweeted_status.id":1,"retweeted_status.extended_tweet.entities.user_mentions.id":1,"retweeted_status.user.id":1,"user.id":1,"entities.hashtags.text":1,"retweeted_status.extended_tweet.entities.hashtags.text":1}).limit(5)
 
 
 
@@ -43,7 +43,7 @@ tweet_obj = tweets.find({"$or":[{"retweeted_status.extended_tweet.entities.hasht
 #               flattened_record = {'_id': user_id,'name.last': last_name}
 #               write.writerow(flattened_record)
 
-with open('tweets_updated_v1.csv', 'w') as outfile:
+with open('tweets_updated_v2.csv', 'w') as outfile:
 	fields = ['_id','tweet_id','rt_tweetid','user','rt_user','timestamp','hashtags','rt_hashtags','mentions','rt_mentions']
 	write = csv.DictWriter(outfile, fieldnames=fields)
 	write.writeheader()
@@ -67,22 +67,26 @@ with open('tweets_updated_v1.csv', 'w') as outfile:
 		try:
 			for x in records['retweeted_status']['extended_tweet']['entities']['hashtags']:
 				rt_hashtags.append(x['text'])
+			rt_hashtags = ';'.join(map(lambda x:str(x),rt_hashtags))
 		except:
 			rt_hashtags = []
 		try:
 			for y in records['entities']['hashtags']:
 				hashtags.append(y['text'])
+			hashtags = ';'.join(map(lambda x:str(x),hashtags))
 		except:
 			hashtags = []
 		
 		try:
 			for z in records['retweeted_status']['extended_tweet']['entities']['user_mentions']:
 				rt_mentions.append(z['id'])
+			rt_mentions = ';'.join(map(lambda x:str(x),rt_mentions))
 		except:
 			rt_mentions = []
 		try:
 			for w in records['entities']['user_mentions']:
 				mentions.append(w['id'])
+			mentions = ';'.join(map(lambda x:str(x),mentions))
 		except:
 			mentions = []
 	
